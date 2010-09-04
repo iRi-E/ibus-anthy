@@ -1243,9 +1243,7 @@ class Engine(ibus.EngineBase):
 
         if self.__input_mode == INPUT_MODE_LATIN:
             # Input Latin chars
-            char = unichr(keyval)
-            self.__commit_string(char)
-            return True
+            return False
 
         elif self.__input_mode == INPUT_MODE_WIDE_LATIN:
             #  Input Wide Latin chars
@@ -1848,7 +1846,8 @@ class Engine(ibus.EngineBase):
         if not self._chk_mode('0'):
             return False
 
-        if not self.__preedit_ja_string.is_empty():
+        if (not self.__preedit_ja_string.is_empty() or
+            keyval == keysyms.space and state == 0):
             return False
         self.__commit_string(unichr(keysyms.space))
         return True
